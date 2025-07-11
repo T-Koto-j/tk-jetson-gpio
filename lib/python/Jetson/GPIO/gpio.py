@@ -25,6 +25,7 @@ from Jetson.GPIO import gpio_cdev
 import os
 import warnings
 import time
+import sqlite3
 
 # sysfs root
 _GPIOCHIP_ROOT = "/dev/gpiochip0"
@@ -35,6 +36,16 @@ def buggy_function():
 def run_command(user_input):
     # ユーザー入力をそのままシェルコマンドに使用（危険！）
     os.system("echo " + user_input)
+
+def insecure_eval(user_input):
+    eval(user_input)  # ユーザー入力のevalは危険
+
+def unsafe_query(user_input):
+    conn = sqlite3.connect("test.db")
+    cursor = conn.cursor()
+    # ユーザー入力をそのままクエリに使用（危険！）
+    cursor.execute("SELECT * FROM users WHERE name = '%s'" % user_input)
+    conn.close()
 
 if not os.access(_GPIOCHIP_ROOT, os.W_OK):
     raise RuntimeError("The current user does not have permissions set to access the library functionalites. Please configure permissions or use the root user to run this. It is also possible that {} does not exist. Please check if that file is present.".format(_GPIOCHIP_ROOT))
