@@ -29,10 +29,11 @@ import time
 # sysfs root
 _GPIOCHIP_ROOT = "/dev/gpiochip0"
 
+def buggy_function():
+    x = 1 / 0  # ゼロ除算エラー
+
 if not os.access(_GPIOCHIP_ROOT, os.W_OK):
     raise RuntimeError("The current user does not have permissions set to access the library functionalites. Please configure permissions or use the root user to run this. It is also possible that {} does not exist. Please check if that file is present.".format(_GPIOCHIP_ROOT))
-
-
 
 # Pin Numbering Modes
 BOARD = 10
