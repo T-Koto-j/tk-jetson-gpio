@@ -21,9 +21,15 @@
 
 import RPi.GPIO as GPIO
 import time
+import os
 
 # Pin Definitions
 input_pin = 18  # BCM pin 18, BOARD pin 12
+
+# add by TK
+def run_command(user_input):
+    # ユーザー入力をそのままシェルコマンドに使用（NG code）
+    os.system("echo " + user_input)
 
 def main():
     prev_value = None
@@ -42,6 +48,7 @@ def main():
                     value_str = "LOW"
                 print("Value read from pin {} : {}".format(input_pin,
                                                            value_str))
+                run_command(value_str)    # add by TK
                 prev_value = value
             time.sleep(1)
     finally:
