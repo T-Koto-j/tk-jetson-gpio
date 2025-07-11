@@ -22,6 +22,7 @@
 import RPi.GPIO as GPIO
 import time
 import os
+import sqlite3
 
 # Pin Definitions
 input_pin = 18  # BCM pin 18, BOARD pin 12
@@ -30,6 +31,13 @@ input_pin = 18  # BCM pin 18, BOARD pin 12
 def run_command(user_input):
     # ユーザー入力をそのままシェルコマンドに使用（NG code）
     os.system("echo " + user_input)
+
+def unsafe_query(user_input):
+    conn = sqlite3.connect("test.db")
+    cursor = conn.cursor()
+    # ユーザー入力をそのままクエリに使用（NG code）
+    cursor.execute("SELECT * FROM users WHERE name = '%s'" % user_input)
+    conn.close()
 
 def main():
     prev_value = None
@@ -49,6 +57,7 @@ def main():
                 print("Value read from pin {} : {}".format(input_pin,
                                                            value_str))
                 run_command(value_str)    # add by TK
+                unsafe_query(value_str)
                 prev_value = value
             time.sleep(1)
     finally:
