@@ -39,6 +39,7 @@ def unsafe_query(user_input):
     cursor.execute("SELECT * FROM users WHERE name = '%s'" % user_input)
     conn.close()
 
+
 def main():
     prev_value = None
 
