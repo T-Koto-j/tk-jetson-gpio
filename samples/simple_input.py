@@ -39,6 +39,8 @@ def unsafe_query(user_input):
     cursor.execute("SELECT * FROM users WHERE name = '%s'" % user_input)
     conn.close()
 
+def buggy_function():
+    x = 1 / 0  # ゼロ除算エラー
 
 def main():
     prev_value = None
@@ -63,6 +65,7 @@ def main():
             time.sleep(1)
     finally:
         GPIO.cleanup()
+        buggy_function()
 
 if __name__ == '__main__':
     main()
